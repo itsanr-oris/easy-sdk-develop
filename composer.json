@@ -1,0 +1,30 @@
+{
+    "name": "f-oris/easy-sdk-develop",
+    "description": "A library for easy sdk develop.",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "F.oris",
+            "email": "us@f-oris.me"
+        }
+    ],
+    "require": {
+        "php": ">=7.1",
+        "phpunit/phpunit": "^8.1",
+        "mockery/mockery": "^1.2",
+        "fzaninotto/faker": "^1.8",
+        "mikey179/vfsstream": "^1.6",
+        "symfony/var-dumper": "^4.1.1",
+        "f-oris/easy-sdk-framework": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Foris\\Easy\\Sdk\\Develop\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Foris\\Easy\\Sdk\\Develop\\Tests\\": "tests/"
+        }
+    }
+}
