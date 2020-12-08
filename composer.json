@@ -26,5 +26,15 @@
         "psr-4": {
             "Foris\\Easy\\Sdk\\Develop\\Tests\\": "tests/"
         }
+    },
+    "extra": {
+        "easy-sdk": {
+            "providers": [
+                "Foris\\Easy\\Sdk\\Develop\\ServiceProvider"
+            ]
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit"
     }
 }
