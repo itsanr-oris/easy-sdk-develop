@@ -4,6 +4,11 @@ Easy sdk 开发辅助扩展包，目前主要为自定义sdk组件扩展包提�
 
 [![Latest Stable Version](https://poser.pugx.org/f-oris/easy-sdk-develop/v)](//packagist.org/packages/f-oris/easy-sdk-develop) [![Total Downloads](https://poser.pugx.org/f-oris/easy-sdk-develop/downloads)](//packagist.org/packages/f-oris/easy-sdk-develop) [![Latest Unstable Version](https://poser.pugx.org/f-oris/easy-sdk-develop/v/unstable)](//packagist.org/packages/f-oris/easy-sdk-develop) [![License](https://poser.pugx.org/f-oris/easy-sdk-develop/license)](//packagist.org/packages/f-oris/easy-sdk-develop)
 
+## 功能
+
+- [x] 为自定义sdk组件扩展包提供独立的测试环境
+- [x] 增加ide-helper相应指令，方便开发人员进行联调开发
+
 ## 安装
 
 通过composer引入扩展包
