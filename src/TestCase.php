@@ -8,16 +8,20 @@ namespace Foris\Easy\Sdk\Develop;
 use Foris\Demo\Sdk\Application;
 use org\bovigo\vfs\vfsStream;
 use Symfony\Component\Console\Tester\TesterTrait;
+use Symfony\Component\Console\Output\ConsoleOutput;
+use Symfony\Component\Console\Output\StreamOutput;
 
 /**
  * Class TestCase
+ *
+ * @method expectException($class)
+ * @method expectExceptionMessage($message)
+ * @method setExpectedException($class, $message = "", $code = null)
+ * @method assertStringContainsString(string $needle, string $haystack, string $message = '')
+ * @method assertStringContainsStringIgnoringCase(string $needle, string $haystack, string $message = '')
  */
 class TestCase extends \PHPUnit\Framework\TestCase
 {
-    use TesterTrait {
-        initOutput as traitInitOutput;
-    }
-
     /**
      * Application instance.
      *
@@ -33,9 +37,16 @@ class TestCase extends \PHPUnit\Framework\TestCase
     protected $vfs;
 
     /**
+     * ConsoleOutput instance.
+     *
+     * @var ConsoleOutput
+     */
+    protected $output;
+
+    /**
      * Set up test environment
      */
-    protected function setUp(): void
+    protected function setUp()
     {
         parent::setUp();
 
@@ -87,8 +98,37 @@ class TestCase extends \PHPUnit\Framework\TestCase
      */
     protected function initOutput($options = [])
     {
-        $this->traitInitOutput($options);
-        return $this->getOutput();
+        $this->output = new StreamOutput(fopen('php://memory', 'w', false));
+        if (isset($options['decorated'])) {
+            $this->output->setDecorated($options['decorated']);
+        }
+        if (isset($options['verbosity'])) {
+            $this->output->setVerbosity($options['verbosity']);
+        }
+        return $this->output;
+    }
+
+    /**
+     * Gets the display returned by the last execution of the command or application.
+     *
+     * @param bool $normalize
+     * @return string The display
+     */
+    public function getDisplay($normalize = false)
+    {
+        if (null === $this->output) {
+            throw new \RuntimeException('Output not initialized, did you execute the command before requesting the display?');
+        }
+
+        rewind($this->output->getStream());
+
+        $display = stream_get_contents($this->output->getStream());
+
+        if ($normalize) {
+            $display = str_replace(\PHP_EOL, "\n", $display);
+        }
+
+        return $display;
     }
 
     /**
@@ -103,5 +143,57 @@ class TestCase extends \PHPUnit\Framework\TestCase
     public function call($command, $parameters = [])
     {
         return $this->app()->artisan()->call($command, $parameters, $this->initOutput());
+    }
+
+    /**
+     * Assert a exception was thrown.
+     *
+     * @param        $class
+     * @param string $message
+     */
+    protected function assertThrowException($class, $message = '')
+    {
+        if (method_exists($this, 'setExpectedException')) {
+            $this->setExpectedException($class, $message);
+            return ;
+        } else {
+            $this->expectException($class);
+            $this->expectExceptionMessage($message);
+            return ;
+        }
+    }
+
+    /**
+     * Assert a given string is a sub-string of another string.
+     *
+     * @param string $needle
+     * @param string $haystack
+     * @param string $message
+     */
+    protected function assertHasSubString($needle, $haystack, $message = '')
+    {
+        if (method_exists($this, 'assertStringContainsString')) {
+            $this->assertStringContainsString($needle, $haystack, $message);
+            return ;
+        }
+
+        $this->assertTrue(mb_strpos($haystack, $needle) !== false);
+    }
+
+    /**
+     * Assert a given string is a sub-string of another string.
+     *
+     * @param string $needle
+     * @param string $haystack
+     * @param string $message
+     */
+    protected function assertHasSubStringIgnoringCase($needle, $haystack, $message = '')
+    {
+        if (method_exists($this, 'assertStringContainsStringIgnoringCase')) {
+            $this->assertStringContainsStringIgnoringCase($needle, $haystack, $message);
+            return ;
+        }
+
+        $this->assertTrue(mb_stripos($haystack, $needle) !== false);
     }
 }

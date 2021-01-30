@@ -25,6 +25,6 @@ class IdeHelperTest extends TestCase
         $this->app()->artisan()->call('ide-helper:meta');
 
         $this->assertFileExists($file);
-        $this->assertStringContainsString("'ide-helper.phpstorm.meta' => \Foris\Easy\Sdk\Develop\Commands\IdeHelper\PhpStormMeta::class", Filesystem::get($file));
+        $this->assertHasSubString("'ide-helper.phpstorm.meta' => \Foris\Easy\Sdk\Develop\Commands\IdeHelper\PhpStormMeta::class", Filesystem::get($file));
     }
 }
