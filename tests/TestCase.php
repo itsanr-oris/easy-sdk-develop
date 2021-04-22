@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpUndefinedClassInspection */
+/** @noinspection PhpIncludeInspection */
 
 namespace Foris\Easy\Sdk\Develop\Tests;
 
