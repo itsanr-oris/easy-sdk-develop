@@ -2,6 +2,7 @@
 
 namespace Foris\Easy\Sdk\Develop\Tests;
 
+use Foris\Easy\Sdk\Develop\ServiceProvider;
 use Foris\Easy\Support\Filesystem;
 
 /**
@@ -9,6 +10,16 @@ use Foris\Easy\Support\Filesystem;
  */
 class IdeHelperTest extends TestCase
 {
+    /**
+     * Gets the service providers array.
+     *
+     * @return array
+     */
+    protected function providers()
+    {
+        return array_merge(parent::providers(), [ServiceProvider::class]);
+    }
+
     /**
      * Test generate metadata file
      *

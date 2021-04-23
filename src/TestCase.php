@@ -29,6 +29,16 @@ class TestCase extends \Foris\Easy\Sdk\Test\TestCase
     }
 
     /**
+     * Gets the service providers array.
+     *
+     * @return array
+     */
+    protected function providers()
+    {
+        return [];
+    }
+
+    /**
      * Create sdk application instance.
      *
      * @return Application|\Foris\Easy\Sdk\Application
@@ -36,9 +46,10 @@ class TestCase extends \Foris\Easy\Sdk\Test\TestCase
     protected function createApplication()
     {
         $app = new Application();
-        $app->registerProviders([ServiceProvider::class]);
+        $app->registerProviders($this->providers());
         return $app;
     }
+
 
     /**
      * Create artisan command application instance.
